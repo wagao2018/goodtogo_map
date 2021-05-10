@@ -31,50 +31,62 @@ class MapPageState extends State<MapPage> {
     mapController = controller;
   }
 
+  Widget _buildGoogleMap(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: GoogleMap(
+        onMapCreated: _onMapCreated,
+        markers: _markers,
+        initialCameraPosition: CameraPosition(
+          target: _center,
+          zoom: 14,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            markers: _markers,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 14,
-            ),
-          ),
+          _buildGoogleMap(context),
           _buildContainer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  child: Icon(
-                    Icons.add,
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  child: Icon(
-                    Icons.map,
-                    // size: 36,
-                  ),
-                ),
-              ),
-            ],
-          )
+          _buildSideFilter(),
         ],
       ),
     );
   }
+}
+
+Widget _buildSideFilter() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+      Align(
+        alignment: Alignment.centerRight,
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.add,
+          ),
+        ),
+      ),
+      SizedBox(height: 16.0),
+      Align(
+        alignment: Alignment.centerRight,
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.map,
+            // size: 36,
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 Widget _buildContainer() {
@@ -130,7 +142,7 @@ Widget _buildContainer() {
 Widget _boxes(String _image, double lat, double long, String cafeName) {
   return GestureDetector(
     onTap: () {
-      // _gotLocation(lat, long);
+      _gotoLocation(lat, long);
     },
     child: Container(
       child: new FittedBox(
@@ -188,7 +200,7 @@ Widget cafeInfoContainer(String cafeName) {
                 ),
                 Container(
                   child: Text(
-                    "\u00B7 \u0024\u0024 \u00B7",
+                    "\u0024\u0024",
                     style: TextStyle(fontSize: 12.0),
                   ),
                 ),
@@ -228,6 +240,12 @@ Widget cafeInfoContainer(String cafeName) {
         ],
       ));
 }
+Future<void> _gotoLocation(double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
+      bearing: 45.0,)));
+  }
+
 
 class Utils {
   static String mapStyle = '''
