@@ -58,6 +58,22 @@ class MapPageState extends State<MapPage> {
   }
   
   Widget _buildContainer() {
+    List<Widget> cafe_card_list = [];
+    cafe_card_list.add(SizedBox(width:8.0));
+    for(final my_cafe in initial_cafes) {
+      // format this cafe into a widget
+      Padding my_cafe_widget = Padding(
+                               padding: const EdgeInsets.all(8.0), 
+                               child: _boxes(my_cafe.pictureUrl,
+                                             my_cafe.position.latitude, 
+                                             my_cafe.position.longitude, 
+                                             my_cafe.name)
+                              );
+
+      // add the cafe's widget to card_list                              
+      cafe_card_list.add(my_cafe_widget);
+      cafe_card_list.add(SizedBox(width: 8.0));
+    }
     return Align(
       alignment: Alignment.bottomLeft,
       child: Container(
@@ -65,35 +81,13 @@ class MapPageState extends State<MapPage> {
         height: 150.0,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://cafeastoria-stpaul.com/wp-content/uploads/2020/08/cafeastoria-interior2.jpg",
-                  40.738380, -73.988426,"Gramercy Tavern"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://cafeastoria-stpaul.com/wp-content/uploads/2020/08/cafeastoria-interior2.jpg",
-                  40.761421, -73.981667,"Le Bernardin"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://cafeastoria-stpaul.com/wp-content/uploads/2020/08/cafeastoria-interior2.jpg",
-                  40.732128, -73.999619,"Blue Hill"),
-            ),
-          ],
+          children: cafe_card_list,
         ),
       ),
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String restaurantName) {
+  Widget _boxes(String _image, double lat, double long, String restaurantName) {
     return  GestureDetector(
         onTap: () {
           _gotoLocation(lat,long);
@@ -238,9 +232,6 @@ class MapPageState extends State<MapPage> {
           _controller.complete(controller);
         },
         markers:_markers
-        // markers: {
-        //   newyork1Marker,newyork2Marker,newyork3Marker,gramercyMarker,bernardinMarker,blueMarker
-        // },
       ),
     );
   }
@@ -276,7 +267,6 @@ List<EcoCafe> initial_cafes = [
   EcoCafe(markerId: MarkerId('id-5'), name: 'ReallyCafe', position: LatLng(37.7585, -122.4090), pictureUrl: "https://cafeastoria-stpaul.com/wp-content/uploads/2020/08/cafeastoria-interior2.jpg", acceptsReusableCups: true),
   EcoCafe(markerId: MarkerId('id-6'), name: 'GoodCafe', position: LatLng(37.7485, -122.4101), pictureUrl: "https://cafeastoria-stpaul.com/wp-content/uploads/2020/08/cafeastoria-interior2.jpg", acceptsReusableCups: true),
 ];
-
 
 class Utils {
   static String mapStyle = '''
