@@ -78,7 +78,7 @@ class MapPageState extends State<MapPage> {
       alignment: Alignment.bottomLeft,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 150.0,
+        height: 256.0,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: cafe_card_list,
@@ -87,138 +87,107 @@ class MapPageState extends State<MapPage> {
     );
   }
 
-  Widget _boxes(String _image, double lat, double long, String restaurantName) {
-    return  GestureDetector(
-        onTap: () {
-          _gotoLocation(lat,long);
-        },
-        child:Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 180,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(_image),
-                            ),
-                          ),),
-                          Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: myDetailsContainer1(restaurantName),
-                          ),
-                        ),
-
-                      ],)
-                ),
-              ),
-            ),
-    );
-  }
-
-  Widget myDetailsContainer1(String restaurantName) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Container(
-              child: Text(restaurantName,
-            style: TextStyle(
-                color: Color(0xff6200ee),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ),
-        SizedBox(height:5.0),
-        Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _boxes(String _image, double lat, double long, String cafeName) {
+  return GestureDetector(
+    onTap: () {
+     _gotoLocation(lat,long);
+    },
+    child: Container(
+      child: new FittedBox(
+        child: Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
+                child: ClipRRect(
+                  borderRadius: new BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
+                  ),
+                  child: Image(
+                    fit: BoxFit.cover,
+                    width: 343,
+                    height: 105,
+                    image: NetworkImage(_image),
+                  ),
+                ),
+              ),
+              Container(
+                width: 343,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: cafeInfoContainer(cafeName),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+  Widget cafeInfoContainer(String cafeName) {
+  return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
                   child: Text(
-                "4.1",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
+                    "Open | 0.06MI",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
                 ),
-              )),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStarHalf,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-               Container(
+                Container(
                   child: Text(
-                "(946)",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
+                    "\u00B7 \u0024\u0024 \u00B7",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
                 ),
-              )),
+              ],
+            ),
+          ),
+          Container(
+            child: Text(
+              cafeName,
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            child: Text(
+              "Close at 6 pm",
+              style: TextStyle(fontSize: 12.0),
+            ),
+          ),
+          SizedBox(height: 32.0),
+          Container(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "GO NOW",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+                // onPressed(){}
+                // textAlign: TextAlign.center,
+              ),
             ],
           )),
-          SizedBox(height:5.0),
-        Container(
-                  child: Text(
-                "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-              SizedBox(height:5.0),
-        Container(
-            child: Text(
-          "Closed \u00B7 Opens 17:00 Thu",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        )),
-      ],
-    );
-  }
+          SizedBox(height: 16.0),
+        ],
+      ));
+}
 
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
