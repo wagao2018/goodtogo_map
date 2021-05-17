@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'map.dart';
+import 'package:provider/provider.dart';
+import 'package:good_to_go_app/CafeList.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CafeList(),
+      child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
