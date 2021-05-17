@@ -52,11 +52,42 @@ class MapPageState extends State<MapPage> {
         children: <Widget>[
           _buildGoogleMap(context),
           _buildContainer(),
+          _buildButtons(),
         ],
       ),
     );
   }
-  
+
+
+
+  Widget _buildButtons() {
+    return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  child: Icon(
+                    Icons.add,
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FloatingActionButton( // Filter button
+                  onPressed: () {},
+                  child: Icon(
+                    Icons.map,
+                    // size: 36,
+                  ),
+                ),
+              ),
+            ],
+          );
+  }
   Widget _buildContainer() {
     List<Widget> cafe_card_list = [];
     cafe_card_list.add(SizedBox(width:8.0));
